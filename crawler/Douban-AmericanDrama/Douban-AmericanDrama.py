@@ -17,9 +17,12 @@ class Douban:
         self.writer = None
 
     def run(self):
+        # 准备录入文件
         f = open('./Douban-AmericanDrama.csv', 'w')
         self.writer = csv.writer(f)
-        self.writer.writerow(['title', 'rate', 'url', 'cover'])
+        headers = ['title', 'rate', 'url', 'cover']
+        self.writer = csv.DictWriter(f, headers)
+
         while True:
             # 发起请求,得到响应
             response = requests.get(self.url.format(self.num))
