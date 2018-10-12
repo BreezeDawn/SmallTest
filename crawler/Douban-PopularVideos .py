@@ -1,5 +1,6 @@
 def response_method():
     # 响应的属性和方法
+
     # 获取响应状态码
     print(response.status_code)
     # 获取响应头
