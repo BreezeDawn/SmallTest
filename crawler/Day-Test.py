@@ -66,3 +66,9 @@ def dump_test():
 
 # 10.re(使用compile,re.S(使'.'包括换行符),re.I(忽略大小写))
 
+# 12.xpath
+# from lxml import etree
+# f = open('./xpath.html','r')
+# e = etree.HTML(f.read())
+# f.close()
+# print(e.xpath('//book'))
