@@ -2,6 +2,11 @@
 import time
 import requests
 
+# 可以使用协程池
+# import gevent.monky
+# gevent.monky.path_all()
+# from gevent.pool import Pool
+
 from queue import Queue
 from bs4 import BeautifulSoup
 from multiprocessing.dummy import Pool
@@ -14,25 +19,27 @@ class Qiushi:
             "User-Agent": "Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 "
                           "(KHTML, like Gecko) Chrome/64.0.3282.204 Safari/537.36"
         }
-        self.pool = Pool()
+        self.pool = Pool()  # 默认大小是cup的个数
         self.page_list = Queue()
         self.detail_url_list = Queue()
         self.detail_list = Queue()
 
     def run(self):
-        self.pool.apply_async(self.get_page_url)
-        self.pool.apply_async(self.get_detail_url, callback=self.call_back)
-        self.pool.apply_async(self.get_detail_url, callback=self.call_back)
-        self.pool.apply_async(self.get_detail, callback=self.call_back)
-        self.pool.apply_async(self.get_detail, callback=self.call_back)
-        self.pool.apply_async(self.get_content, callback=self.call_back)
-        self.pool.apply_async(self.get_content, callback=self.call_back)
+        self.pool.apply_async(self.get_page_url)  # 线程池异步执行
+        self.pool.apply_async(self.get_detail_url, callback=self._call_back)
+        self.pool.apply_async(self.get_detail_url, callback=self._call_back)
+        self.pool.apply_async(self.get_detail, callback=self._call_back)
+        self.pool.apply_async(self.get_detail, callback=self._call_back)
+        self.pool.apply_async(self.get_content, callback=self._call_back)
+        self.pool.apply_async(self.get_content, callback=self._call_back)
         time.sleep(3)
         self.page_list.join()
         self.detail_url_list.join()
         self.detail_list.join()
+        self.pool.close()  # 关闭线程池，防止新的线程开启
+        self.pool.join()  # 等待所有的子线程结束
 
-    def call_back(self, *args):
+    def _call_back(self, *args):
         if isinstance(*args, tuple()):
             args = args[0]
         print(args[0].__name__, '任务执行完毕')
@@ -41,7 +48,7 @@ class Qiushi:
             print(args[1])
             print('--------------------End---------------------')
         print('开始一个新任务:', args[0].__name__)
-        self.pool.apply_async(args[0], callback=self.call_back)
+        self.pool.apply_async(args[0], callback=self._call_back)  # 让_callback 递归的调用自己
 
     def get_page_url(self):
         # 生成链接列表
