@@ -1,6 +1,5 @@
+# 豆瓣热门爬取,熟悉返回响应的属性和方法,熟悉requests的属性和方法
 def response_method():
-    # 响应的属性和方法
-
     # 获取响应状态码
     print(response.status_code)
     # 获取响应头

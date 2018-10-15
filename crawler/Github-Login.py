@@ -1,4 +1,4 @@
-# 模拟登陆
+# 使用requests.session,github模拟登陆,并访问需要登陆的页面
 import requests
 
 # 输入账号密码

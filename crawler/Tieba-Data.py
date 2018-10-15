@@ -1,3 +1,4 @@
+# 获取贴吧数据,并使用xpath提取期望数据
 from lxml import etree
 import requests
 

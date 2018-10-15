@@ -1,3 +1,4 @@
+# js逆向,微博登陆,没有处理验证码
 import re
 import rsa
 import json
