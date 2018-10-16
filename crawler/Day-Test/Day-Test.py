@@ -24,6 +24,7 @@ def trans_test():
     cookies = requests.utils.cookiejar_from_dict(cookies)  # dict -> cookie
     print('cookie_object', cookies)
 
+
 # trans_test()
 
 
@@ -34,6 +35,7 @@ def proxie_test():
     }
     requests.get('http://www.xingtu.info/', headers=headers, proxies=proxies)
 
+
 # proxie_test()
 
 
@@ -42,6 +44,7 @@ def ssl_test():
     response = requests.get('https://www.12306.cn/mormhweb/', headers=headers, verify=False)
     with open('./1.html', 'wb') as file:
         file.write(response.content)
+
 
 # ssl_test()
 
@@ -54,6 +57,7 @@ def retry_test():
     }
     response = requests.get('https://www.baidu.com', headers=headers, proxies=proxies, timeout=3)
     print(response.content)
+
 
 # retry_test()
 
@@ -83,12 +87,12 @@ def zip_test():
     b = [4, 5, 6]
     c = [4, 5, 6, 7, 8]
 
-    zipped = zip(a, b)     # 打包
+    zipped = zip(a, b)  # 打包
     print(zipped)
 
-    print(zip(a, c))              # 列表中元素的个数与最短的列表一致
+    print(zip(a, c))  # 列表中元素的个数与最短的列表一致
 
-    print(zip(*zipped))          # *zipped 可理解为解压，返回二维矩阵式
+    print(zip(*zipped))  # *zipped 可理解为解压，返回二维矩阵式
 
 
 # zip_test()
@@ -153,7 +157,6 @@ def bs4_test():
 
 # 10.守护线程和守护进程(True:随着主进程结束,False:主进程结束子线程(进程)继续运行)
 def daemon_test():
-
     def run():
         while True:
             print('1')
